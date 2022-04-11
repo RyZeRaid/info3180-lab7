@@ -1,13 +1,16 @@
 <template>
     <form @submit.prevent="uploadPhoto" id="uploadForm">
-        <div>
-        <label for="description">Description</label>
-        <textarea name="description" id="description"></textarea>
-
-        <label for="photo">Upload Photo</label>
-        <input type="file" name="photo" id="photo" @change="selectImage">
-
-        <button type="submit" @click="uploadPhoto">Upload</button>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description"></textarea>
+        
+        
+        <div class="upload">
+            <label for="photo">Upload Photo</label>
+            <input class="form-control" type="file" name="photo" id="photo" @change="selectImage">
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit" @click="uploadPhoto">Upload</button>
         </div>
     </form>
 </template>
@@ -61,3 +64,8 @@ export default {
     
 }
 </script>
+
+<style>
+
+
+</style>
