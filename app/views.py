@@ -5,11 +5,11 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 
-from crypt import methods
 from app import app
 from flask import render_template, request, jsonify, send_file
 from .forms import UploadForm
 from werkzeug.utils import secure_filename
+from flask_wtf.csrf import generate_csrf
 import os
 
 from app.forms import UploadForm
@@ -25,7 +25,7 @@ def index():
 
 
 
-@app.route('/api/upload', methods=["POST"])
+@app.route('/api/upload', methods=["POST", "GET"])
 def upload():
     form = UploadForm()
 
@@ -34,6 +34,7 @@ def upload():
 
         photo = form.photo.data
         photoname = secure_filename(photo.filename)
+        print(os.path.join(app.config['UPLOAD_FOLDER'], photoname))
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photoname))
 
         return jsonify(message="File Upload Successful" , filename = photoname, description = description )
@@ -42,6 +43,10 @@ def upload():
 ###
 # The functions below should be applicable to all Flask apps.
 ###
+
+@app.route('/api/csrf-token', methods=['GET'])
+def get_csrf():
+ return jsonify({'csrf_token': generate_csrf()})
 
 # Here we define a function to collect form errors from Flask-WTF
 # which we can later use
